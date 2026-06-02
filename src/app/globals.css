@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0a0a0c;
+  --color-foreground: #ededed;
+  --color-surface: #121214;
+  --color-surface-hover: #1a1a1e;
+  --color-gold: #cfaa70;
+  --color-gold-hover: #dfbc82;
+  --color-gold-muted: rgba(207, 170, 112, 0.2);
+  --color-border: #2a2a2e;
+
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+}
+
+/* Base styles for dark luxury feel */
+html, body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+@layer base {
+  ::selection {
+    background-color: var(--color-gold);
+    color: #000;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .glass {
+    background: rgba(18, 18, 20, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}
