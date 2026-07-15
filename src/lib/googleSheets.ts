@@ -38,12 +38,25 @@ export interface ProductWithVariants extends Product {
   variants: Product[];
 }
 
-// Convert Google Drive share links to direct image links
+// Convert Google Drive share links to direct image links via local proxy
 export function parseDriveLink(url: string): string {
   if (!url) return '';
-  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  if (match && match[1]) {
-    return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+  
+  let id = '';
+  // Format: /d/ID/view... or /d/ID
+  const dMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (dMatch && dMatch[1]) {
+    id = dMatch[1];
+  } else {
+    // Format: ?id=ID or &id=ID
+    const idMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (idMatch && idMatch[1]) {
+      id = idMatch[1];
+    }
+  }
+
+  if (id) {
+    return `/api/media?id=${id}`;
   }
   return url.trim();
 }
