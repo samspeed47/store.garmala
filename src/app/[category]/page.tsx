@@ -3,6 +3,8 @@ import ProductCard from "@/components/ProductCard";
 import ProductHorizontalSlider from "@/components/ProductHorizontalSlider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PlumbingCategoryPage from "@/components/PlumbingCategoryPage";
+import WoodCategoryPage from "@/components/WoodCategoryPage";
 import { notFound } from "next/navigation";
 
 // Predefined order for lighting subcategories as requested by user
@@ -23,6 +25,16 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   
   if (!category) {
     notFound();
+  }
+
+  // Specialized architectural curation page for Plumbing Showroom
+  if (resolvedParams.category === "plumbing") {
+    return <PlumbingCategoryPage />;
+  }
+
+  // Specialized architectural curation page for Woodworks Showroom
+  if (resolvedParams.category === "wood") {
+    return <WoodCategoryPage />;
   }
 
   const products = await getProductsByCategory(resolvedParams.category);

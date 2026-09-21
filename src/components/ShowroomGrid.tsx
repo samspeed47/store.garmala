@@ -3,25 +3,43 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Category } from "@/lib/googleSheets";
+import LightingShowroom from "./LightingShowroom";
+import PlumbingShowroom from "./PlumbingShowroom";
+import WoodShowroom from "./WoodShowroom";
 
 export default function ShowroomGrid({ categories }: { categories: Category[] }) {
   return (
-    <div className="flex flex-col gap-32 md:gap-48 mt-20">
+    <div className="flex flex-col gap-24 md:gap-40 mt-12 md:mt-20">
       {categories.map((category, idx) => {
+        // Render custom architectural editorial component for Lighting Showroom
+        if (category.slug === "lighting" || (idx === 0 && category.slug !== "plumbing" && category.slug !== "wood")) {
+          return <LightingShowroom key={category.id} />;
+        }
+
+        // Render custom architectural editorial component for Plumbing Showroom
+        if (category.slug === "plumbing") {
+          return <PlumbingShowroom key={category.id} />;
+        }
+
+        // Render custom architectural editorial component for Woodworks Showroom
+        if (category.slug === "wood") {
+          return <WoodShowroom key={category.id} />;
+        }
+
         const isEven = idx % 2 === 0;
 
         return (
           <motion.div 
             key={category.id}
-            initial={{ opacity: 0, y: 100 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className={`relative flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-24`}
           >
             {/* Background massive typography */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full overflow-hidden flex justify-center pointer-events-none z-0 opacity-[0.03]">
-              <h2 className="font-serif text-[8rem] md:text-[16rem] whitespace-nowrap leading-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full overflow-hidden flex justify-center pointer-events-none z-0 opacity-[0.015]">
+              <h2 className="font-serif text-[8rem] md:text-[16rem] whitespace-nowrap leading-none text-white tracking-widest uppercase">
                 {category.title.replace(' Showroom', '').toUpperCase()}
               </h2>
             </div>
@@ -64,3 +82,6 @@ export default function ShowroomGrid({ categories }: { categories: Category[] })
     </div>
   );
 }
+
+
+
